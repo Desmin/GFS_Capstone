@@ -4,7 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * The main stage controller contains methods for all action events supported by the main stage, most of which are
@@ -57,6 +63,17 @@ public class MainStageController {
     @FXML
     private void promptWithImageSelector() {
         System.out.println("Invoked image selector.");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select An Image");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        File selectedImage = fileChooser.showOpenDialog(uploadImageButton.getScene().getWindow());
+        try {
+            imageView.setImage(new Image(new FileInputStream(selectedImage)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println(selectedImage.getAbsolutePath());
     }
 
     /**
