@@ -1,1 +1,4 @@
 tesseract/
+.idea/
+*.iml
+out/
