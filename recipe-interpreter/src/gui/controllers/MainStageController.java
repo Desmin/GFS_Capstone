@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Optional;
 
 /**
  * The main stage controller contains methods for all action events supported by the main stage, most of which are
@@ -62,18 +63,22 @@ public class MainStageController {
      */
     @FXML
     private void promptWithImageSelector() {
-        System.out.println("Invoked image selector.");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select An Image");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
-        File selectedImage = fileChooser.showOpenDialog(uploadImageButton.getScene().getWindow());
-        try {
-            imageView.setImage(new Image(new FileInputStream(selectedImage)));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        Optional<File> selectedImage = Optional.ofNullable(fileChooser.showOpenDialog(uploadImageButton.getScene().getWindow()));
+
+        if (selectedImage.isPresent()) {
+            try {
+                imageView.setImage(new Image(new FileInputStream(selectedImage.get())));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            //Upload image
+            System.out.println(selectedImage.get().getAbsolutePath());
         }
-        System.out.println(selectedImage.getAbsolutePath());
     }
 
     /**
