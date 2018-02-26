@@ -4,22 +4,22 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class Adapter {
-    public Adapter() {
+public class Interpreter {
+    public Interpreter() {
 
     }
-// testing code
-//    public static void main(String[] args) {
-//        Adapter adpt = new Adapter();
-//        String thing = null;
-//        try {
-//            thing = adpt.processImage("/home/guthriew/Downloads/understandable.jpg");
-//        } catch (TesseractException e) {
-//            e.printStackTrace();
-//            System.exit(1);
-//        }
-//        System.out.println(thing);
-//    }
+
+    public static void main(String[] args) {
+        Interpreter adpt = new Interpreter();
+        String thing = null;
+        try {
+            thing = adpt.processImage("/home/guthriew/Downloads/understandable.jpg");
+        } catch (TesseractException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        System.out.println(thing);
+    }
 
     /**
      *
