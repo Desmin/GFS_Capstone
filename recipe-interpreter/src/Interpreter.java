@@ -9,17 +9,17 @@ public class Interpreter {
 
     }
 
-    public static void main(String[] args) {
-        Interpreter adpt = new Interpreter();
-        String thing = null;
-        try {
-            thing = adpt.processImage("/home/guthriew/Downloads/understandable.jpg");
-        } catch (TesseractException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        System.out.println(thing);
-    }
+//    public static void main(String[] args) {
+//        Interpreter adpt = new Interpreter();
+//        String thing = null;
+//        try {
+//            thing = adpt.processImage("/home/guthriew/Downloads/understandable.jpg");
+//        } catch (TesseractException e) {
+//            e.printStackTrace();
+//            System.exit(1);
+//        }
+//        System.out.println(thing);
+//    }
 
     /**
      *
