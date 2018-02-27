@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="217.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.gui.controllers.OptionsStageController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="217.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.OptionsStageController">
     <children>
         <Label layoutX="66.0" layoutY="11.0" text="Language(s) :" textAlignment="RIGHT" />
         <ComboBox fx:id="languageComboBox" layoutX="142.0" layoutY="7.0" onAction="#updateOptions" prefWidth="150.0" visibleRowCount="15" />

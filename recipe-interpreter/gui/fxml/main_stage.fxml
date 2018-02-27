@@ -5,7 +5,7 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="555.0" prefWidth="572.0" xmlns="http://javafx.com/javafx/9.0.1"
-      fx:controller="src.gui.controllers.MainStageController">
+      fx:controller="gui.controllers.MainStageController">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
