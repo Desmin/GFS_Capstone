@@ -1,4 +1,4 @@
-package src.gui.controllers;
+package gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import src.gui.TesseractOptions;
+import gui.TesseractOptions;
 
 import java.io.IOException;
 

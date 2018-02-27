@@ -1,4 +1,4 @@
-package src.gui;
+package gui;
 
 /**
  * A class that represents the various options that exist for the Tesseract.
