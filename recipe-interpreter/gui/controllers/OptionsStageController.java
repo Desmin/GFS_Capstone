@@ -1,11 +1,11 @@
 package gui.controllers;
 
+import gui.TesseractOptions;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import gui.TesseractOptions;
 
 import java.util.Objects;
 

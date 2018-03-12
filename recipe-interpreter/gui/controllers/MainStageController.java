@@ -1,27 +1,24 @@
 package gui.controllers;
 
+import gui.TesseractOptions;
+import interpreter.Interpreter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import net.sourceforge.tess4j.TesseractException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
-import java.util.Optional;
-
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import gui.TesseractOptions;
-
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * The main stage controller contains methods for all action events supported by the main stage, most of which are
@@ -30,25 +27,6 @@ import java.io.IOException;
  * @author Desmin Little
  */
 public class MainStageController {
-
-    /**
-     * Menu items pertaining to OCR processing and interpretation.
-     */
-    @FXML
-    private MenuItem uploadImageMenuItem, interpretImageMenuItem;
-
-    /**
-     * A menu item that allows a user to specify OCR processing options.
-     */
-    @FXML
-    private MenuItem changeOCROptionsMenuItem;
-
-    /**
-     * Non-essential menu items provided for convenience.
-     */
-    @FXML
-    private MenuItem usageMenuItem, aboutMenuItem, quitMenuItem;
-
     /**
      * An image view for presenting the recipe in image form.
      */
@@ -62,11 +40,8 @@ public class MainStageController {
     private TextArea recipeTextArea;
 
     /**
-     * Buttons for invoking the upload and interpretation processes.
+     * An object used to represent Tesseract's options that can easily be passed between controllers.
      */
-    @FXML
-    private Button uploadImageButton, interpretTextButton;
-
     private TesseractOptions tesseractOptions = new TesseractOptions();
 
     public TesseractOptions getTesseractOptions() {
@@ -88,17 +63,18 @@ public class MainStageController {
         fileChooser.setTitle("Select An Image");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
-        Optional<File> selectedImage = Optional.ofNullable(fileChooser.showOpenDialog(uploadImageButton.getScene().getWindow()));
+        Optional<File> selectedImage = Optional.ofNullable(fileChooser.showOpenDialog(imageView.getScene().getWindow()));
 
         if (selectedImage.isPresent()) {
             try {
                 imageView.setImage(new Image(new FileInputStream(selectedImage.get())));
+                String text = Interpreter.processImage(selectedImage.get());
+                recipeTextArea.setText(text);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+            } catch (TesseractException e) {
+                e.printStackTrace();
             }
-
-            //Upload image
-            System.out.println(selectedImage.get().getAbsolutePath());
         }
     }
 
@@ -131,12 +107,17 @@ public class MainStageController {
              */
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(imageView.getScene().getWindow());
-            stage.setTitle("TesseractOptions");
+            stage.setTitle("Options");
             stage.setScene(new Scene(root));
             stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void exitApplication() {
+        ((Stage) imageView.getScene().getWindow()).close();
     }
 }

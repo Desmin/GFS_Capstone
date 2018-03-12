@@ -107,7 +107,6 @@ public class TesseractOptions {
     }
 
 
-
     /**
      * Contains all the available page segmentation modes for the Tesseract.
      *

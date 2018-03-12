@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="555.0" prefWidth="572.0" xmlns="http://javafx.com/javafx/9.0.1"
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1"
       fx:controller="gui.controllers.MainStageController">
     <children>
         <MenuBar VBox.vgrow="NEVER">
@@ -34,7 +34,7 @@
                             </accelerator>
                         </MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false"/>
-                        <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" text="Quit">
+                        <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" onAction="#exitApplication" text="Quit">
                             <accelerator>
                                 <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP"
                                                     shortcut="UP"/>
@@ -52,14 +52,17 @@
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="422.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
             <children>
-                <TabPane prefHeight="480.0" prefWidth="572.0" tabClosingPolicy="UNAVAILABLE">
+                <TabPane prefHeight="575.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                         <Tab text="Image">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
-                                        <ImageView fx:id="imageView" fitHeight="431.0" fitWidth="553.0" layoutX="10.0"
-                                                   layoutY="10.0" pickOnBounds="true" preserveRatio="true"/>
+                                        <ImageView fx:id="imageView" fitHeight="490.0" fitWidth="570.0" layoutX="15.0"
+                                                   layoutY="8.0" pickOnBounds="true" preserveRatio="true"/>
+                                        <Button fx:id="uploadImageButton" layoutX="250.0" layoutY="504.0"
+                                                mnemonicParsing="false" onAction="#promptWithImageSelector"
+                                                prefHeight="32.0" prefWidth="100.0" text="Upload Image"/>
                                     </children>
                                 </AnchorPane>
                             </content>
@@ -68,18 +71,17 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
-                                        <TextArea fx:id="recipeTextArea" layoutX="11.0" layoutY="10.0"
-                                                  prefHeight="431.0" prefWidth="551.0"/>
+                                        <TextArea fx:id="recipeTextArea" layoutX="15.0" layoutY="8.0" prefHeight="490.0"
+                                                  prefWidth="570.0"/>
+                                        <Button fx:id="interpretTextButton" layoutX="250.0" layoutY="504.0"
+                                                mnemonicParsing="false" onAction="#interpretRecipe" prefHeight="32.0"
+                                                prefWidth="100.0" text="Interpret Text"/>
                                     </children>
                                 </AnchorPane>
                             </content>
                         </Tab>
                     </tabs>
                 </TabPane>
-                <Button fx:id="uploadImageButton" layoutX="174.0" layoutY="483.0" mnemonicParsing="false"
-                        onAction="#promptWithImageSelector" prefHeight="32.0" prefWidth="100.0" text="Upload Image"/>
-                <Button fx:id="interpretTextButton" layoutX="298.0" layoutY="483.0" mnemonicParsing="false"
-                        onAction="#interpretRecipe" prefHeight="32.0" prefWidth="100.0" text="Interpret Text"/>
             </children>
         </AnchorPane>
     </children>

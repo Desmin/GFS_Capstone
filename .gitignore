@@ -2,3 +2,4 @@ tesseract-backend/tesseract
 .idea/
 *.iml
 out/
+pom.xml
