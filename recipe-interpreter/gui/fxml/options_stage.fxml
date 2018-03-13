@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.Pane?>
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="217.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.OptionsStageController">
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="217.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/9.0.1"
+      fx:controller="gui.controllers.OptionsStageController">
     <children>
-        <Label layoutX="66.0" layoutY="11.0" text="Language(s) :" textAlignment="RIGHT" />
-        <ComboBox fx:id="languageComboBox" layoutX="142.0" layoutY="7.0" onAction="#updateOptions" prefWidth="150.0" visibleRowCount="15" />
-        <Label layoutX="27.0" layoutY="41.0" text="Page Segmentation :" textAlignment="RIGHT" />
-        <Label layoutX="61.0" layoutY="70.0" text="Engine Mode :" textAlignment="RIGHT" />
-        <Button layoutX="91.0" layoutY="189.0" mnemonicParsing="false" onAction="#saveOptions" prefHeight="25.0" prefWidth="70.0" text="Save" />
-        <Button layoutX="164.0" layoutY="189.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="25.0" prefWidth="70.0" text="Cancel" />
-        <ComboBox fx:id="pageSegmentationComboBox" layoutX="142.0" layoutY="37.0" onAction="#updateOptions" prefWidth="150.0" />
-        <ComboBox fx:id="engineModeComboBox" layoutX="142.0" layoutY="67.0" onAction="#updateOptions" prefWidth="150.0" />
-        <Label fx:id="optionsDescriptionLabel" layoutX="22.0" layoutY="94.0" prefHeight="91.0" prefWidth="285.0" wrapText="true" />
+        <Label layoutX="66.0" layoutY="11.0" text="Language(s) :" textAlignment="RIGHT"/>
+        <ComboBox fx:id="languageComboBox" layoutX="142.0" layoutY="7.0" onAction="#updateOptions" prefWidth="150.0"
+                  visibleRowCount="15"/>
+        <Label layoutX="27.0" layoutY="41.0" text="Page Segmentation :" textAlignment="RIGHT"/>
+        <Label layoutX="61.0" layoutY="70.0" text="Engine Mode :" textAlignment="RIGHT"/>
+        <Button layoutX="91.0" layoutY="189.0" mnemonicParsing="false" onAction="#saveOptions" prefHeight="25.0"
+                prefWidth="70.0" text="Save"/>
+        <Button layoutX="164.0" layoutY="189.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="25.0"
+                prefWidth="70.0" text="Cancel"/>
+        <ComboBox fx:id="pageSegmentationComboBox" layoutX="142.0" layoutY="37.0" onAction="#updateOptions"
+                  prefWidth="150.0"/>
+        <ComboBox fx:id="engineModeComboBox" layoutX="142.0" layoutY="67.0" onAction="#updateOptions"
+                  prefWidth="150.0"/>
+        <Label fx:id="optionsDescriptionLabel" layoutX="22.0" layoutY="94.0" prefHeight="91.0" prefWidth="285.0"
+               wrapText="true"/>
     </children>
 </Pane>
