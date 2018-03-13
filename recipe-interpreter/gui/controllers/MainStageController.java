@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,6 +41,16 @@ public class MainStageController {
     @FXML
     private TextArea recipeTextArea;
 
+    @FXML
+    private Button performOCRButton;
+
+    @FXML
+    private TabPane tabPane;
+
+    private Interpreter interpreter = new Interpreter();
+
+    private File selectedImage;
+
     /**
      * An object used to represent Tesseract's options that can easily be passed between controllers.
      */
@@ -50,7 +62,7 @@ public class MainStageController {
 
     public void setTesseractOptions(TesseractOptions tesseractOptions) {
         this.tesseractOptions = tesseractOptions;
-        System.out.println(tesseractOptions.getEngineMode().getDescription());
+        interpreter.setTesseractOptions(tesseractOptions);
     }
 
     /**
@@ -62,17 +74,15 @@ public class MainStageController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select An Image");
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
-        Optional<File> selectedImage = Optional.ofNullable(fileChooser.showOpenDialog(imageView.getScene().getWindow()));
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        Optional<File> image = Optional.ofNullable(fileChooser.showOpenDialog(imageView.getScene().getWindow()));
 
-        if (selectedImage.isPresent()) {
+        if (image.isPresent()) {
             try {
-                imageView.setImage(new Image(new FileInputStream(selectedImage.get())));
-                String text = Interpreter.processImage(selectedImage.get());
-                recipeTextArea.setText(text);
+                selectedImage = image.get();
+                imageView.setImage(new Image(new FileInputStream(selectedImage)));
+                performOCRButton.setDisable(false);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (TesseractException e) {
                 e.printStackTrace();
             }
         }
@@ -112,6 +122,16 @@ public class MainStageController {
             stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void performOCR() {
+        try {
+            recipeTextArea.setText(interpreter.processImage(selectedImage));
+            tabPane.getSelectionModel().select(1);
+        } catch (TesseractException e) {
             e.printStackTrace();
         }
     }

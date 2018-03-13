@@ -50,7 +50,6 @@ public class OptionsStageController {
         languageComboBox.setItems(FXCollections.observableArrayList(TesseractOptions.Language.values()));
         pageSegmentationComboBox.setItems(FXCollections.observableArrayList(TesseractOptions.PageSegmentation.values()));
         engineModeComboBox.setItems(FXCollections.observableArrayList(TesseractOptions.EngineMode.values()));
-
     }
 
     /**

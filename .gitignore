@@ -3,3 +3,4 @@ tesseract-backend/tesseract
 *.iml
 out/
 pom.xml
+target/
