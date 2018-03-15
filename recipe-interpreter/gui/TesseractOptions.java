@@ -11,8 +11,8 @@ public class TesseractOptions {
      * The various options, automatically set to their defaults.
      */
     private Language language = Language.ENGLISH;
-    private PageSegmentation pageSegmentation = PageSegmentation.AUTOMATED_OCR;
-    private EngineMode engineMode = EngineMode.DEFAULT;
+    private PageSegmentation pageSegmentation = PageSegmentation.AUTOMATED;
+    private EngineMode engineMode = EngineMode.BOTH;
 
     public TesseractOptions(TesseractOptions options) {
         this.language = options.getLanguage();

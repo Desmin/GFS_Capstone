@@ -77,14 +77,12 @@ public class MainStageController {
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
         Optional<File> image = Optional.ofNullable(fileChooser.showOpenDialog(imageView.getScene().getWindow()));
 
-        if (image.isPresent()) {
-            try {
-                selectedImage = image.get();
-                imageView.setImage(new Image(new FileInputStream(selectedImage)));
-                performOCRButton.setDisable(false);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+        if (image.isPresent()) try {
+            selectedImage = interpreter.preprocessImage(image.get());
+            imageView.setImage(new Image(new FileInputStream(selectedImage)));
+            performOCRButton.setDisable(false);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
