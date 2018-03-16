@@ -126,12 +126,8 @@ public class MainStageController {
 
     @FXML
     private void performOCR() {
-        try {
-            recipeTextArea.setText(interpreter.processImage(selectedImage));
-            tabPane.getSelectionModel().select(1);
-        } catch (TesseractException e) {
-            e.printStackTrace();
-        }
+        recipeTextArea.setText(interpreter.performOCR(selectedImage));
+        tabPane.getSelectionModel().select(1);
     }
 
     @FXML

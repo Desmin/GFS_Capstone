@@ -29,24 +29,6 @@ public class Interpreter {
             tess.setDatapath(WINDOWS_DATAPATH);
     }
 
-    /**
-     * Processes the give image and returns the text as a String.
-     *
-     * @param pathToImageFile - the path to the image file.
-     * @return imageText
-     */
-    public String processImage(final String pathToImageFile) throws TesseractException {
-        BufferedImage img;
-        try {
-            img = ImageIO.read(new File(pathToImageFile));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        String imageText = tess.doOCR(img);
-        return imageText;
-    }
-
     public void setTesseractOptions(TesseractOptions options) {
         tess.setLanguage(options.getLanguage().getTesseractString());
         tess.setOcrEngineMode(options.getEngineMode().ordinal());
@@ -62,13 +44,25 @@ public class Interpreter {
             noiseRemoval.applyInPlace(fastBitmap);
             bufferedImage = fastBitmap.toBufferedImage();
             ImageIO.write(bufferedImage, "testname", given);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return given;
     }
 
-    public String processImage(final File image) throws TesseractException {
-        return tess.doOCR(image);
+    /**
+     * Processes the given image and returns the text as a String.
+     *
+     * @param image - the path to the image file.
+     * @return imageText
+     */
+    public String performOCR(final File image) {
+        String extractedText = "";
+        try {
+            extractedText = tess.doOCR(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return extractedText;
     }
 }

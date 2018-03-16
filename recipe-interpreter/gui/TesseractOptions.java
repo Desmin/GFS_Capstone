@@ -20,9 +20,7 @@ public class TesseractOptions {
         this.engineMode = options.getEngineMode();
     }
 
-    public TesseractOptions() {
-
-    }
+    public TesseractOptions() { }
 
     /**
      * A utility method that formats enum ordinal names. THIS_IS_A_STRING becomes This Is A String.
