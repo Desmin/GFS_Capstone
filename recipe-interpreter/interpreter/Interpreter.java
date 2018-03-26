@@ -1,16 +1,22 @@
 package interpreter;
 
 import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Filters.BradleyLocalThreshold;
 import Catalano.Imaging.Filters.GaussianNoise;
+import Catalano.Imaging.Filters.Resize;
 import com.sun.jna.Platform;
 import gui.TesseractOptions;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class Interpreter {
 
@@ -37,13 +43,17 @@ public class Interpreter {
 
     public File preprocessImage(File given) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(given);
-            FastBitmap fastBitmap = new FastBitmap(bufferedImage);
-            fastBitmap.toGrayscale();
-            GaussianNoise noiseRemoval = new GaussianNoise();
-            noiseRemoval.applyInPlace(fastBitmap);
-            bufferedImage = fastBitmap.toBufferedImage();
-            ImageIO.write(bufferedImage, "testname", given);
+            FastBitmap image = new FastBitmap(ImageIO.read(given));
+            Resize resize = new Resize((int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5), Resize.Algorithm.BILINEAR);
+            resize.applyInPlace(image);
+            image.toGrayscale();
+
+            BradleyLocalThreshold bradleyLocalThreshold = new BradleyLocalThreshold();
+            bradleyLocalThreshold.applyInPlace(image);
+
+            image.saveAsPNG("./tmp.png");
+
+            return new File("./tmp.png");
         } catch (Exception e) {
             e.printStackTrace();
         }

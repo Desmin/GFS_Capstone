@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -45,6 +46,9 @@ public class MainStageController {
     private Button performOCRButton;
 
     @FXML
+    private MenuItem performOCRMenuItem;
+
+    @FXML
     private TabPane tabPane;
 
     private Interpreter interpreter = new Interpreter();
@@ -72,6 +76,7 @@ public class MainStageController {
     @FXML
     private void promptWithImageSelector() {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home"), "Downloads"));
         fileChooser.setTitle("Select An Image");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
@@ -81,6 +86,7 @@ public class MainStageController {
             selectedImage = interpreter.preprocessImage(image.get());
             imageView.setImage(new Image(new FileInputStream(selectedImage)));
             performOCRButton.setDisable(false);
+            performOCRMenuItem.setDisable(false);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

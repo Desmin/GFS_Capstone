@@ -24,6 +24,11 @@
                                 <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator>
                         </MenuItem>
+                  <MenuItem fx:id="performOCRMenuItem" disable="true" mnemonicParsing="false" onAction="#performOCR" text="Extract Text">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
                         <MenuItem fx:id="interpretImageMenuItem" mnemonicParsing="false" onAction="#interpretRecipe" text="Interpret Image">
                             <accelerator>
                                 <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
