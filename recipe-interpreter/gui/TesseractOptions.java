@@ -11,8 +11,8 @@ public class TesseractOptions {
      * The various options, automatically set to their defaults.
      */
     private Language language = Language.ENGLISH;
-    private PageSegmentation pageSegmentation = PageSegmentation.AUTOMATED_OCR;
-    private EngineMode engineMode = EngineMode.DEFAULT;
+    private PageSegmentation pageSegmentation = PageSegmentation.AUTOMATED;
+    private EngineMode engineMode = EngineMode.BOTH;
 
     public TesseractOptions(TesseractOptions options) {
         this.language = options.getLanguage();
@@ -20,9 +20,7 @@ public class TesseractOptions {
         this.engineMode = options.getEngineMode();
     }
 
-    public TesseractOptions() {
-
-    }
+    public TesseractOptions() { }
 
     /**
      * A utility method that formats enum ordinal names. THIS_IS_A_STRING becomes This Is A String.

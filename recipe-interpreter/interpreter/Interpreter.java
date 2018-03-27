@@ -1,16 +1,26 @@
 package interpreter;
 
+import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Filters.BradleyLocalThreshold;
+import Catalano.Imaging.Filters.GaussianNoise;
+import Catalano.Imaging.Filters.Resize;
 import com.sun.jna.Platform;
 import gui.TesseractOptions;
-import net.sourceforge.tess4j.*;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 
 public class Interpreter {
 
-    private static final String LINUX_DATAPATH ="/usr/share/tesseract/", WINDOWS_DATAPATH = "C:/Program Files (x86)/Tesseract-OCR/";
+    private static final String LINUX_DATAPATH = "/usr/share/tesseract/", WINDOWS_DATAPATH = "C:/Program Files (x86)/Tesseract-OCR/";
 
     private Tesseract tess;
 
@@ -24,23 +34,6 @@ public class Interpreter {
         else
             tess.setDatapath(WINDOWS_DATAPATH);
     }
-    /**
-     * Processes the give image and returns the text as a String.
-     *
-     * @param pathToImageFile - the path to the image file.
-     * @return imageText
-     */
-    public String processImage(final String pathToImageFile) throws TesseractException {
-        BufferedImage img;
-        try {
-            img = ImageIO.read(new File(pathToImageFile));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        String imageText = tess.doOCR(img);
-        return imageText;
-    }
 
     public void setTesseractOptions(TesseractOptions options) {
         tess.setLanguage(options.getLanguage().getTesseractString());
@@ -48,7 +41,38 @@ public class Interpreter {
         tess.setPageSegMode(options.getPageSegmentation().ordinal());
     }
 
-    public String processImage(final File image) throws TesseractException {
-        return tess.doOCR(image);
+    public File preprocessImage(File given) {
+        try {
+            FastBitmap image = new FastBitmap(ImageIO.read(given));
+            Resize resize = new Resize((int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5), Resize.Algorithm.BILINEAR);
+            resize.applyInPlace(image);
+            image.toGrayscale();
+
+            BradleyLocalThreshold bradleyLocalThreshold = new BradleyLocalThreshold();
+            bradleyLocalThreshold.applyInPlace(image);
+
+            image.saveAsPNG("./tmp.png");
+
+            return new File("./tmp.png");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return given;
+    }
+
+    /**
+     * Processes the given image and returns the text as a String.
+     *
+     * @param image - the path to the image file.
+     * @return imageText
+     */
+    public String performOCR(final File image) {
+        String extractedText = "";
+        try {
+            extractedText = tess.doOCR(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return extractedText;
     }
 }
