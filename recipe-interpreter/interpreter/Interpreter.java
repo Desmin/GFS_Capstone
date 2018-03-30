@@ -43,7 +43,8 @@ public class Interpreter {
 
     public File preprocessImage(File given) {
         try {
-            FastBitmap image = new FastBitmap(ImageIO.read(given));
+            String fileName = given.getAbsolutePath();
+            FastBitmap image = new FastBitmap(fileName);
             Resize resize = new Resize((int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5), Resize.Algorithm.BILINEAR);
             resize.applyInPlace(image);
             image.toGrayscale();
@@ -51,9 +52,9 @@ public class Interpreter {
             BradleyLocalThreshold bradleyLocalThreshold = new BradleyLocalThreshold();
             bradleyLocalThreshold.applyInPlace(image);
 
-            image.saveAsPNG("./tmp.png");
+            image.saveAsPNG(fileName);
 
-            return new File("./tmp.png");
+            return new File(fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }

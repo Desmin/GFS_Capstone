@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -128,6 +125,27 @@ public class MainStageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void showUsageDialog() {
+        Alert usage = new Alert(Alert.AlertType.NONE);
+        usage.setTitle("Usage");
+        usage.setHeaderText("Usage");
+        usage.setContentText("First, select an image. Our preprocessing will prepare that image for use with the" +
+                " Tesseract's, a program that will extract text from your image. When you're ready, our program will" +
+                " interpret your recipe from that text, making this process as easy as possible for you.");
+        usage.show();
+    }
+
+    @FXML
+    private void showAboutDialog() {
+        Alert usage = new Alert(Alert.AlertType.NONE);
+        usage.setTitle("About");
+        usage.setHeaderText("About");
+        usage.setContentText("This application was created by Desmin Little and Wesley Guthrie for Gordan Food" +
+                " Service. Created Winter semester of 2018.");
+        usage.show();
     }
 
     @FXML

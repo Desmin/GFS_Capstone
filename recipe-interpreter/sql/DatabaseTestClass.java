@@ -1,4 +1,4 @@
-package interpreter;
+package sql;
 
 public class DatabaseTestClass {
     public static void main(String[] args) {
