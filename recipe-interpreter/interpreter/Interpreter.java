@@ -2,21 +2,13 @@ package interpreter;
 
 import Catalano.Imaging.FastBitmap;
 import Catalano.Imaging.Filters.BradleyLocalThreshold;
-import Catalano.Imaging.Filters.GaussianNoise;
+import Catalano.Imaging.Filters.Grayscale;
 import Catalano.Imaging.Filters.Resize;
 import com.sun.jna.Platform;
 import gui.TesseractOptions;
 import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
 
 public class Interpreter {
 
@@ -41,24 +33,24 @@ public class Interpreter {
         tess.setPageSegMode(options.getPageSegmentation().ordinal());
     }
 
-    public File preprocessImage(File given) {
-        try {
-            String fileName = given.getAbsolutePath();
-            FastBitmap image = new FastBitmap(fileName);
-            Resize resize = new Resize((int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5), Resize.Algorithm.BILINEAR);
-            resize.applyInPlace(image);
-            image.toGrayscale();
+    public String preprocessImage(String pathToImage) {
+        System.out.println(pathToImage);
+        FastBitmap image = new FastBitmap(pathToImage);
 
-            BradleyLocalThreshold bradleyLocalThreshold = new BradleyLocalThreshold();
-            bradleyLocalThreshold.applyInPlace(image);
+        Grayscale grayscale = new Grayscale();
+        Resize resize = new Resize((int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5), Resize.Algorithm.BILINEAR);
+        BradleyLocalThreshold bradleyLocalThreshold = new BradleyLocalThreshold();
 
-            image.saveAsPNG(fileName);
+        grayscale.applyInPlace(image);
+        resize.applyInPlace(image);
+        bradleyLocalThreshold.applyInPlace(image);
 
-            return new File(fileName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return given;
+        String pathToFile = System.getProperty("java.io.tmpdir") + "tmp.png";
+        System.out.println(pathToFile);
+
+        image.saveAsPNG(pathToFile);
+
+        return pathToFile;
     }
 
     /**

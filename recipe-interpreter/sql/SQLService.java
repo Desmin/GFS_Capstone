@@ -1,6 +1,9 @@
 package sql;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,12 +16,9 @@ import java.util.logging.Logger;
 public class SQLService {
 
     private static final String DATABASE_ADDRESS = "jdbc:mysql://localhost:3306/recipes", USERNAME = "gfs_capstone", PASSWORD = "gfs_capston";
-
-    private Connection databaseConnection;
-
-    private Logger logger = Logger.getLogger("SQLService");
-
     private static final String GET_NEXT_RECIPE_ID = "select max(recipe_id)+1 as id from recipe", GET_RECIPE_BY_TITLE = "select recipe_id as r from recipe where title ='";
+    private Connection databaseConnection;
+    private Logger logger = Logger.getLogger("SQLService");
 
     public SQLService() {
         startService();
