@@ -16,8 +16,11 @@ public class RecipeInterpreter extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/main_stage.fxml"));
-        primaryStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        //scene.getStylesheets().add(this.getClass().getResource("fxml/material-fx-v0_3.css").toExternalForm());
+        primaryStage.setScene(scene);
         primaryStage.setResizable(false);
+
         primaryStage.show();
     }
 }

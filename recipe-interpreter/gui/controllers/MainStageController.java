@@ -6,20 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import net.sourceforge.tess4j.TesseractException;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -53,7 +47,7 @@ public class MainStageController {
 
     private Interpreter interpreter = new Interpreter();
 
-    private File selectedImage;
+    private String selectedImagePath;
 
     /**
      * An object used to represent Tesseract's options that can easily be passed between controllers.
@@ -80,15 +74,16 @@ public class MainStageController {
         fileChooser.setTitle("Select An Image");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-        Optional<File> image = Optional.ofNullable(fileChooser.showOpenDialog(imageView.getScene().getWindow()));
+        Optional<File> file = Optional.ofNullable(fileChooser.showOpenDialog(imageView.getScene().getWindow()));
 
-        if (image.isPresent()) try {
-            selectedImage = interpreter.preprocessImage(image.get());
-            imageView.setImage(new Image(new FileInputStream(selectedImage)));
+        if (file.isPresent()) {
+            Image image = new Image(file.get().toURI().toString());
+            imageView.setFitHeight(image.getHeight());
+            imageView.setFitWidth(image.getWidth());
+            imageView.setImage(image);
+            selectedImagePath = interpreter.preprocessImage(file.get().getPath());
             performOCRButton.setDisable(false);
             performOCRMenuItem.setDisable(false);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
@@ -131,8 +126,29 @@ public class MainStageController {
     }
 
     @FXML
+    private void showUsageDialog() {
+        Alert usage = new Alert(Alert.AlertType.NONE);
+        usage.setHeaderText("Usage");
+        usage.setContentText("First, select an image. Our preprocessing will prepare that image for use with the" +
+                " Tesseract's, a program that will extract text from your image. When you're ready, our program will" +
+                " interpret your recipe from that text, making this process as easy as possible for you.");
+        usage.getButtonTypes().add(ButtonType.CLOSE);
+        usage.show();
+    }
+
+    @FXML
+    private void showAboutDialog() {
+        Alert usage = new Alert(Alert.AlertType.NONE);
+        usage.setHeaderText("About");
+        usage.setContentText("This application was created by Desmin Little and Wesley Guthrie for Gordan Food" +
+                " Service. Created Winter semester of 2018.");
+        usage.getButtonTypes().add(ButtonType.CLOSE);
+        usage.show();
+    }
+
+    @FXML
     private void performOCR() {
-        recipeTextArea.setText(interpreter.performOCR(selectedImage));
+        recipeTextArea.setText(interpreter.performOCR(new File(selectedImagePath)));
         tabPane.getSelectionModel().select(1);
     }
 
