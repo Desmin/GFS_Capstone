@@ -6,6 +6,7 @@ import Catalano.Imaging.Filters.Grayscale;
 import Catalano.Imaging.Filters.Resize;
 import com.sun.jna.Platform;
 import gui.TesseractOptions;
+import gui.controllers.MainStageController;
 import net.sourceforge.tess4j.Tesseract;
 
 import java.io.File;
@@ -67,5 +68,55 @@ public class Interpreter {
             e.printStackTrace();
         }
         return extractedText;
+    }
+
+    /**
+     * Processes the recipe text and returns the recipe ingredients.
+     *
+     * @param recipeText - the text from the recipe OCR.
+     * @return ingredients
+     */
+    public String getIngredients(final String recipeText) {
+        String ingredients = "";
+        System.out.println("\n\nInvoked recipe interpreter.");
+        String[] recipeLines = recipeText.split("\n\n");
+        boolean ingredientText = false;
+        for (String recipeLine : recipeLines) {
+            if (recipeLine.toLowerCase().contains("ingredients")) {
+                ingredientText = true;
+                continue;
+
+            } else if (recipeLine.toLowerCase().contains("instructions")) {
+                ingredientText = false;
+                continue;
+            }
+
+            if (ingredientText) {
+                String value = "";
+                String metric = "";
+                String ingredient = "";
+                String[] recipeWords = recipeLine.split(" ");
+//                boolean valueFound = false;
+                for (int i = 0; i < recipeWords.length; i++) {
+                    if (MainStageController.isNumeric(recipeWords[i])) {
+                        value = recipeWords[i];
+                        i++;
+                        metric = recipeWords[i];
+                        i++;
+                        while (i < recipeWords.length) {
+                            ingredient += recipeWords[i] + " ";
+                            i++;
+                        }
+                        break;
+                    }
+                }
+                System.out.println("NEW INGREDIENT");
+                System.out.println(value);
+                System.out.println(metric);
+                System.out.println(ingredient);
+                ingredients += value + " " + metric + " " + ingredient + "\n";
+            }
+        }
+        return ingredients;
     }
 }
