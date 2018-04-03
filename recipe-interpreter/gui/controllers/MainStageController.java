@@ -93,7 +93,45 @@ public class MainStageController {
      */
     @FXML
     private void interpretRecipe() {
-        System.out.println("Invoked recipe interpreter.");
+        String recipeText = recipeTextArea.getText();
+        String[] recipeLines = recipeText.split("\n\n");
+        boolean ingredients = false;
+        for (String recipeLine : recipeLines) {
+            if (recipeLine.contains("Ingredients") || recipeLine.contains("ingredients")) {
+                ingredients = true;
+                continue;
+
+            } else if (recipeLine.contains("Instructions") || recipeLine.contains("instructions")) {
+                ingredients = false;
+                continue;
+            }
+
+            String value = "";
+            String metric = "";
+            String ingredient = "";
+            if (ingredients) {
+                String[] recipeWords = recipeLine.split(" ");
+//                boolean valueFound = false;
+                for (int i = 0; i < recipeWords.length; i++) {
+                    if (MainStageController.isNumeric(recipeWords[i])) {
+                        value = recipeWords[i];
+                        i++;
+                        metric = recipeWords[i];
+                        i++;
+                        while (i < recipeWords.length) {
+                            ingredient += recipeWords[i] + " ";
+                            i++;
+                        }
+                        break;
+                    }
+                }
+            }
+            System.out.println("NEW INGREDIENT");
+            System.out.println(value);
+            System.out.println(metric);
+            System.out.println(ingredient);
+        }
+        System.out.println("\n\nInvoked recipe interpreter.");
     }
 
     /**
@@ -155,5 +193,9 @@ public class MainStageController {
     @FXML
     private void exitApplication() {
         ((Stage) imageView.getScene().getWindow()).close();
+    }
+
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
 }
