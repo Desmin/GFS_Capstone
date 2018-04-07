@@ -6,9 +6,14 @@ import Catalano.Imaging.Filters.Grayscale;
 import Catalano.Imaging.Filters.Resize;
 import com.sun.jna.Platform;
 import gui.TesseractOptions;
+import gui.controllers.MainStageController;
 import net.sourceforge.tess4j.Tesseract;
+import sun.applet.Main;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.StringReader;
+import java.util.ArrayList;
 
 public class Interpreter {
 
@@ -67,5 +72,61 @@ public class Interpreter {
             e.printStackTrace();
         }
         return extractedText;
+    }
+
+    /**
+     * Processes the recipe text and returns the recipe ingredients.
+     *
+     * @param recipeText - the text from the recipe OCR.
+     * @return ingredients
+     */
+    public Recipe getIngredients(final String recipeText) {
+        String directions = "";
+        ArrayList<Ingredient> listOfIngredients = new ArrayList<>();
+        System.out.println("\n\nInvoked recipe interpreter.");
+        String[] recipeLines = recipeText.split("\n\n");
+        //new BufferedReader(new StringReader(recipeText)).lines().forEach(recipeLine -> {
+        boolean ingredientText = false;
+        for (String recipeLine : recipeLines) {
+            if (recipeLine.toLowerCase().contains("ingredients")) {
+                ingredientText = true;
+                continue;
+
+            } else if (recipeLine.toLowerCase().contains("instructions")) {
+                ingredientText = false;
+                continue;
+            }
+
+            if (ingredientText) {
+                String value = "";
+                String metric = "";
+                String ingredient = "";
+                String[] recipeWords = recipeLine.split(" ");
+                boolean valueFound = false;
+                for (int i = 0; i < recipeWords.length; i++) {
+                    if (MainStageController.isNumeric(recipeWords[i])) {
+                        value = recipeWords[i];
+                        i++;
+                        metric = recipeWords[i];
+                        i++;
+                        while (i < recipeWords.length) {
+                            ingredient += recipeWords[i] + " ";
+                            i++;
+                        }
+                        valueFound = true;
+                        break;
+                    }
+                }
+                if (!valueFound) {
+                    value = "null";
+                    metric = "null";
+                    ingredient = recipeLine;
+                }
+                listOfIngredients.add(new Ingredient(value, metric, ingredient));
+            } else {
+                directions += recipeLine;
+            }
+        }
+        return new Recipe(listOfIngredients, directions);
     }
 }

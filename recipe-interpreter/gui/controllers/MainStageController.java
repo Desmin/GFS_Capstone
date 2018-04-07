@@ -96,7 +96,8 @@ public class MainStageController {
      */
     @FXML
     private void interpretRecipe() {
-        System.out.println("Invoked recipe interpreter.");
+        String recipeText = recipeTextArea.getText();
+        interpreter.getIngredients(recipeText);
     }
 
     /**
@@ -169,5 +170,9 @@ public class MainStageController {
     @FXML
     private void exitApplication() {
         ((Stage) imageView.getScene().getWindow()).close();
+    }
+
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
 }
