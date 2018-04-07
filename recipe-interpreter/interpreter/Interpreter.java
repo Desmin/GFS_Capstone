@@ -8,8 +8,12 @@ import com.sun.jna.Platform;
 import gui.TesseractOptions;
 import gui.controllers.MainStageController;
 import net.sourceforge.tess4j.Tesseract;
+import sun.applet.Main;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.StringReader;
+import java.util.ArrayList;
 
 public class Interpreter {
 
@@ -76,10 +80,12 @@ public class Interpreter {
      * @param recipeText - the text from the recipe OCR.
      * @return ingredients
      */
-    public String getIngredients(final String recipeText) {
-        String ingredients = "";
+    public Recipe getIngredients(final String recipeText) {
+        String directions = "";
+        ArrayList<Ingredient> listOfIngredients = new ArrayList<>();
         System.out.println("\n\nInvoked recipe interpreter.");
         String[] recipeLines = recipeText.split("\n\n");
+        //new BufferedReader(new StringReader(recipeText)).lines().forEach(recipeLine -> {
         boolean ingredientText = false;
         for (String recipeLine : recipeLines) {
             if (recipeLine.toLowerCase().contains("ingredients")) {
@@ -96,7 +102,7 @@ public class Interpreter {
                 String metric = "";
                 String ingredient = "";
                 String[] recipeWords = recipeLine.split(" ");
-//                boolean valueFound = false;
+                boolean valueFound = false;
                 for (int i = 0; i < recipeWords.length; i++) {
                     if (MainStageController.isNumeric(recipeWords[i])) {
                         value = recipeWords[i];
@@ -107,16 +113,20 @@ public class Interpreter {
                             ingredient += recipeWords[i] + " ";
                             i++;
                         }
+                        valueFound = true;
                         break;
                     }
                 }
-                System.out.println("NEW INGREDIENT");
-                System.out.println(value);
-                System.out.println(metric);
-                System.out.println(ingredient);
-                ingredients += value + " " + metric + " " + ingredient + "\n";
+                if (!valueFound) {
+                    value = "null";
+                    metric = "null";
+                    ingredient = recipeLine;
+                }
+                listOfIngredients.add(new Ingredient(value, metric, ingredient));
+            } else {
+                directions += recipeLine;
             }
         }
-        return ingredients;
+        return new Recipe(listOfIngredients, directions);
     }
 }
