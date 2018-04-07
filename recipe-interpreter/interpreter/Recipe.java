@@ -26,4 +26,13 @@ public class Recipe {
     public void setDirections(String directions) {
         this.directions = directions;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Ingredients:\n");
+        ingredients.forEach(ingredient -> builder.append(ingredient.toString()).append("\n"));
+        builder.append(directions);
+        return builder.toString();
+    }
 }
