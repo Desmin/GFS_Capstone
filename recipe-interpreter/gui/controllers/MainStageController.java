@@ -12,9 +12,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Optional;
 
 /**
@@ -47,7 +49,7 @@ public class MainStageController {
 
     private Interpreter interpreter = new Interpreter();
 
-    private String selectedImagePath;
+    private String selectedImagePath, fileName;
 
     /**
      * An object used to represent Tesseract's options that can easily be passed between controllers.
@@ -82,6 +84,7 @@ public class MainStageController {
             imageView.setFitWidth(image.getWidth());
             imageView.setImage(image);
             selectedImagePath = interpreter.preprocessImage(file.get().getPath());
+            fileName = file.get().getName().substring(0, file.get().getName().length()-4);
             performOCRButton.setDisable(false);
             performOCRMenuItem.setDisable(false);
         }
@@ -102,7 +105,7 @@ public class MainStageController {
     @FXML
     private void showOptionsStage() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/options_stage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/options_stage_2.0.fxml"));
             Parent root = fxmlLoader.load();
             /*
              * We give an instance of this controller to the option stage controller, so this controller
@@ -117,9 +120,20 @@ public class MainStageController {
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(imageView.getScene().getWindow());
             stage.setTitle("Options");
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(this.getClass().getResource("../fxml/material-fx-v0_3.css").toExternalForm());
+            stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void saveAsTextFile() {
+        try {
+            FileUtils.writeStringToFile(new File("./" + fileName + ".txt"), recipeTextArea.getText(), Charset.defaultCharset());
         } catch (IOException e) {
             e.printStackTrace();
         }

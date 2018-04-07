@@ -15,6 +15,16 @@ import java.util.logging.Logger;
  */
 public class SQLService {
 
+    /**
+     * Here's an example:
+     *
+     *    SQLService sqlService = new SQLService();
+     *    sqlService.addRecipe("Chocolate Chip Cookies", 16, 1, "cookie", "Mix everything together and bake at 350 degree for 14 minutes.");
+     *    sqlService.addIngredient("Chocolate Chip Cookies", "Flour", "cups", 3);
+     *    sqlService.addIngredient("Chocolate Chip Cookies", "Sugar", "cups", 2);
+     *    sqlService.addIngredient("Chocolate Chip Cookies", "Eggs", "large", 2);
+     */
+
     private static final String DATABASE_ADDRESS = "jdbc:mysql://localhost:3306/recipes", USERNAME = "gfs_capstone", PASSWORD = "gfs_capston";
     private static final String GET_NEXT_RECIPE_ID = "select max(recipe_id)+1 as id from recipe", GET_RECIPE_BY_TITLE = "select recipe_id as r from recipe where title ='";
     private Connection databaseConnection;
@@ -71,7 +81,6 @@ public class SQLService {
             ResultSet rs = executeSQLStatement(GET_RECIPE_BY_TITLE + recipeTitle + "'");
             while (rs.next()) {
                 addIngredient(rs.getInt("r"), name, unitOfMeasure, quantity);
-                //updateDatabase("insert into ingredient values (" + rs.getInt("r") + ", '" + name + "', '" + unitOfMeasure + "', " + quantity + ")");
             }
         } catch (SQLException e) {
             e.printStackTrace();

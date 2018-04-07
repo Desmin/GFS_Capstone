@@ -11,7 +11,7 @@ public class TesseractOptions {
      * The various options, automatically set to their defaults.
      */
     private Language language = Language.ENGLISH;
-    private PageSegmentation pageSegmentation = PageSegmentation.AUTOMATED;
+    private PageSegmentation pageSegmentation = PageSegmentation.COLUMN;
     private EngineMode engineMode = EngineMode.BOTH;
 
     public TesseractOptions(TesseractOptions options) {
