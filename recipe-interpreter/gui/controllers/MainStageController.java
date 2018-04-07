@@ -2,6 +2,7 @@ package gui.controllers;
 
 import gui.TesseractOptions;
 import interpreter.Interpreter;
+import interpreter.Recipe;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -94,7 +95,8 @@ public class MainStageController {
     @FXML
     private void interpretRecipe() {
         String recipeText = recipeTextArea.getText();
-        interpreter.getIngredients(recipeText);
+        Recipe recipe = interpreter.getIngredients(recipeText);
+        System.out.println(recipe.toString());
     }
 
     /**

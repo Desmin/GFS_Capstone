@@ -8,11 +8,8 @@ import com.sun.jna.Platform;
 import gui.TesseractOptions;
 import gui.controllers.MainStageController;
 import net.sourceforge.tess4j.Tesseract;
-import sun.applet.Main;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.StringReader;
 import java.util.ArrayList;
 
 public class Interpreter {

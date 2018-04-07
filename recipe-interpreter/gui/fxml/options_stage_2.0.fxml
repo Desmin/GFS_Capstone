@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="295.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.OptionsStageController">
+    <children>
+      <TextArea editable="false" layoutX="-7.0" layoutY="-7.0" prefHeight="309.0" prefWidth="427.0" />
+        <Label layoutX="110.0" layoutY="43.0" text="Language(s) :" textAlignment="RIGHT" />
+        <ComboBox fx:id="languageComboBox" layoutX="198.0" layoutY="20.0" onAction="#updateOptions" prefWidth="150.0" visibleRowCount="15" />
+        <Label layoutX="65.0" layoutY="73.0" text="Page Segmentation :" textAlignment="RIGHT" />
+        <Label layoutX="103.0" layoutY="104.0" text="Engine Mode :" textAlignment="RIGHT" />
+        <Button layoutX="137.0" layoutY="239.0" mnemonicParsing="false" onAction="#saveOptions" prefHeight="25.0" prefWidth="70.0" text="Save" />
+        <Button layoutX="217.0" layoutY="239.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="25.0" prefWidth="70.0" text="Cancel" />
+        <ComboBox fx:id="pageSegmentationComboBox" layoutX="198.0" layoutY="50.0" onAction="#updateOptions" prefWidth="150.0" />
+        <ComboBox fx:id="engineModeComboBox" layoutX="198.0" layoutY="80.0" onAction="#updateOptions" prefWidth="150.0" />
+        <Label fx:id="optionsDescriptionLabel" layoutX="69.0" layoutY="129.0" prefHeight="105.0" prefWidth="285.0" wrapText="true" />
+    </children>
+</Pane>
