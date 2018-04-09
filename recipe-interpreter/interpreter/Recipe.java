@@ -32,6 +32,7 @@ public class Recipe {
         StringBuilder builder = new StringBuilder();
         builder.append("Ingredients:\n");
         ingredients.forEach(ingredient -> builder.append(ingredient.toString()).append("\n"));
+        builder.append("Directions:\n");
         builder.append(directions);
         return builder.toString();
     }

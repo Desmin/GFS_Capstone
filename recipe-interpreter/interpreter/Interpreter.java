@@ -10,7 +10,9 @@ import gui.controllers.MainStageController;
 import net.sourceforge.tess4j.Tesseract;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Interpreter {
 
@@ -27,6 +29,19 @@ public class Interpreter {
             tess.setDatapath(LINUX_DATAPATH);
         else
             tess.setDatapath(WINDOWS_DATAPATH);
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        File file = new File("test-recipes/text/" + "apple-pie-stuffed-apples.txt");
+        System.out.println(file.getAbsolutePath());
+        Scanner scn = new Scanner(file);
+        String text = "";
+        while (scn.hasNext()) {
+            text += scn.nextLine() + "\n";
+        }
+        Interpreter interpreter = new Interpreter();
+        Recipe recipe = interpreter.getIngredients(text);
+        System.out.println(recipe.toString());
     }
 
     public void setTesseractOptions(TesseractOptions options) {
