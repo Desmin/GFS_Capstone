@@ -116,7 +116,7 @@ public class Interpreter {
                 String[] recipeWords = recipeLine.split(" ");
                 boolean valueFound = false;
                 for (int i = 0; i < recipeWords.length; i++) {
-                    if (MainStageController.isNumeric(recipeWords[i])) {
+                    if (isNumeric(recipeWords[i])) {
                         value = recipeWords[i];
                         i++;
                         metric = recipeWords[i];
@@ -140,5 +140,9 @@ public class Interpreter {
             }
         }
         return new Recipe(listOfIngredients, directions);
+    }
+
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+|\\/\\d+)?");  //match a number with optional '-' and decimal.
     }
 }
