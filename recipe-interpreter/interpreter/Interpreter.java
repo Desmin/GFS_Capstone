@@ -93,19 +93,26 @@ public class Interpreter {
      * @return ingredients
      */
     public Recipe getIngredients(final String recipeText) {
+        String title = "";
         String directions = "";
         ArrayList<Ingredient> listOfIngredients = new ArrayList<>();
         System.out.println("\n\nInvoked recipe interpreter.");
         String[] recipeLines = recipeText.split("\n\n");
-        //new BufferedReader(new StringReader(recipeText)).lines().forEach(recipeLine -> {
         boolean ingredientText = false;
+        boolean directionsText = false;
+        boolean titleFinished = false;
         for (String recipeLine : recipeLines) {
+            if (recipeLine.trim().isEmpty()) {
+                titleFinished = true;
+            }
             if (recipeLine.toLowerCase().contains("ingredients")) {
                 ingredientText = true;
+                directionsText = false;
                 continue;
 
             } else if (recipeLine.toLowerCase().contains("instructions")) {
                 ingredientText = false;
+                directionsText = true;
                 continue;
             }
 
@@ -135,11 +142,17 @@ public class Interpreter {
                     ingredient = recipeLine;
                 }
                 listOfIngredients.add(new Ingredient(value, metric, ingredient));
-            } else {
+            } else if (directionsText) {
                 directions += recipeLine;
+            } else {
+                if (!titleFinished) {
+                    title += recipeLine;
+                    titleFinished = true;
+                }
             }
         }
-        return new Recipe(listOfIngredients, directions);
+        title = title.replaceAll("\n", "");
+        return new Recipe(title, listOfIngredients, directions);
     }
 
     public static boolean isNumeric(String str) {
