@@ -6,7 +6,6 @@ import Catalano.Imaging.Filters.Grayscale;
 import Catalano.Imaging.Filters.Resize;
 import com.sun.jna.Platform;
 import gui.TesseractOptions;
-import gui.controllers.MainStageController;
 import net.sourceforge.tess4j.Tesseract;
 
 import java.io.File;
@@ -32,7 +31,7 @@ public class Interpreter {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("test-recipes/text/" + "apple-pie-stuffed-apples.txt");
+        File file = new File("test-recipes/text/" + "grilled-cheese-egg-in-the-hole.txt");
         System.out.println(file.getAbsolutePath());
         Scanner scn = new Scanner(file);
         String text = "";
@@ -156,6 +155,6 @@ public class Interpreter {
     }
 
     public static boolean isNumeric(String str) {
-        return str.matches("-?\\d+(\\.\\d+|\\/\\d+)?");  //match a number with optional '-' and decimal.
+        return str.matches("-?\\d+(\\.\\d+|\\/\\d+)?");  //match a number with optional fractions and/or decimals.
     }
 }
