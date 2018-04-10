@@ -6,11 +6,12 @@ import Catalano.Imaging.Filters.Grayscale;
 import Catalano.Imaging.Filters.Resize;
 import com.sun.jna.Platform;
 import gui.TesseractOptions;
-import gui.controllers.MainStageController;
 import net.sourceforge.tess4j.Tesseract;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Interpreter {
 
@@ -27,6 +28,19 @@ public class Interpreter {
             tess.setDatapath(LINUX_DATAPATH);
         else
             tess.setDatapath(WINDOWS_DATAPATH);
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        File file = new File("test-recipes/text/" + "grilled-cheese-egg-in-the-hole.txt");
+        System.out.println(file.getAbsolutePath());
+        Scanner scn = new Scanner(file);
+        String text = "";
+        while (scn.hasNext()) {
+            text += scn.nextLine() + "\n";
+        }
+        Interpreter interpreter = new Interpreter();
+        Recipe recipe = interpreter.getIngredients(text);
+        System.out.println(recipe.toString());
     }
 
     public void setTesseractOptions(TesseractOptions options) {
@@ -78,19 +92,26 @@ public class Interpreter {
      * @return ingredients
      */
     public Recipe getIngredients(final String recipeText) {
+        String title = "";
         String directions = "";
         ArrayList<Ingredient> listOfIngredients = new ArrayList<>();
         System.out.println("\n\nInvoked recipe interpreter.");
         String[] recipeLines = recipeText.split("\n\n");
-        //new BufferedReader(new StringReader(recipeText)).lines().forEach(recipeLine -> {
         boolean ingredientText = false;
+        boolean directionsText = false;
+        boolean titleFinished = false;
         for (String recipeLine : recipeLines) {
+            if (recipeLine.trim().isEmpty()) {
+                titleFinished = true;
+            }
             if (recipeLine.toLowerCase().contains("ingredients")) {
                 ingredientText = true;
+                directionsText = false;
                 continue;
 
             } else if (recipeLine.toLowerCase().contains("instructions")) {
                 ingredientText = false;
+                directionsText = true;
                 continue;
             }
 
@@ -101,7 +122,7 @@ public class Interpreter {
                 String[] recipeWords = recipeLine.split(" ");
                 boolean valueFound = false;
                 for (int i = 0; i < recipeWords.length; i++) {
-                    if (MainStageController.isNumeric(recipeWords[i])) {
+                    if (isNumeric(recipeWords[i])) {
                         value = recipeWords[i];
                         i++;
                         metric = recipeWords[i];
@@ -120,10 +141,20 @@ public class Interpreter {
                     ingredient = recipeLine;
                 }
                 listOfIngredients.add(new Ingredient(value, metric, ingredient));
-            } else {
+            } else if (directionsText) {
                 directions += recipeLine;
+            } else {
+                if (!titleFinished) {
+                    title += recipeLine;
+                    titleFinished = true;
+                }
             }
         }
-        return new Recipe(listOfIngredients, directions);
+        title = title.replaceAll("\n", "");
+        return new Recipe(title, listOfIngredients, directions);
+    }
+
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+|\\/\\d+)?");  //match a number with optional fractions and/or decimals.
     }
 }

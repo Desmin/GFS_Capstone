@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Recipe {
     private ArrayList<Ingredient> ingredients;
     private String directions;
+    private String title;
 
-    public Recipe(ArrayList ingredientsList, String recipeDirections) {
-        ingredients = ingredientsList;
-        directions = recipeDirections;
+    public Recipe(String title, ArrayList ingredientsList, String recipeDirections) {
+        this.title = title;
+        this.ingredients = ingredientsList;
+        this.directions = recipeDirections;
     }
 
     public ArrayList<Ingredient> getIngredients() {
@@ -30,9 +32,11 @@ public class Recipe {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        builder.append("Title: " + this.title + "\n");
         builder.append("Ingredients:\n");
-        ingredients.forEach(ingredient -> builder.append(ingredient.toString()).append("\n"));
-        builder.append(directions);
+        this.ingredients.forEach(ingredient -> builder.append(ingredient.toString()).append("\n"));
+        builder.append("Directions:\n");
+        builder.append(this.directions);
         return builder.toString();
     }
 }
